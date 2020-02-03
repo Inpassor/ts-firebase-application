@@ -10,11 +10,19 @@ export const firebaseApplication = (
             Promise.resolve(getConfig).then(
                 (config): void => {
                     const server = new Server(config);
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    resolve(server.getHandler(request as any, response as any));
+                    resolve(server.handle.call(server, request, response));
                 },
                 error => reject(error),
             );
         });
     });
 };
+
+export const firebaseApp = (config: ServerConfig, runtimeOptions?: RuntimeOptions): HttpsFunction => {
+    const server = new Server(config);
+    return runWith(runtimeOptions).https.onRequest(server.handle.bind(server));
+};
+
+const config: ServerConfig = {};
+
+export const firebaseFunction = firebaseApplication(config);
