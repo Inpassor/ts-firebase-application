@@ -22,7 +22,3 @@ export const firebaseApp = (config: ServerConfig, runtimeOptions?: RuntimeOption
     const server = new Server(config);
     return runWith(runtimeOptions).https.onRequest(server.handle.bind(server));
 };
-
-const config: ServerConfig = {};
-
-export const firebaseFunction = firebaseApplication(config);
