@@ -18,7 +18,7 @@ const createServer = (config: ServerConfig): Server => {
         server.firebaseApp = initializeApp({
             projectId: process.env.GCLOUD_PROJECT,
         });
-        server.firestore = this.firebaseApp.firestore();
+        server.firestore = server.firebaseApp.firestore();
     } else {
         server.firebaseApp = app();
         server.firestore = firestore(this.firebaseApp);
