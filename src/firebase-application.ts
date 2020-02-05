@@ -1,19 +1,11 @@
 import { apps, app, firestore, initializeApp } from 'firebase-admin';
-import { RuntimeOptions, VALID_MEMORY_OPTIONS, HttpsFunction, runWith } from 'firebase-functions';
-import { Server as NodeServer, ServerConfig, isServerConfig } from '@inpassor/node-server';
+import { RuntimeOptions, HttpsFunction, runWith } from 'firebase-functions';
+import { isServerConfig } from '@inpassor/node-server';
 
-export type Server = NodeServer & {
-    firebaseApp: app.App;
-    firestore: firestore.Firestore;
-};
-
-const defaultRuntimeOptions: RuntimeOptions = {
-    timeoutSeconds: 10,
-    memory: VALID_MEMORY_OPTIONS['128MB'],
-};
+import { Server, ServerConfig } from './interfaces';
 
 const createServer = (config: ServerConfig): Server => {
-    const server = new NodeServer(config) as Server;
+    const server = new Server(config);
     if (!apps.length) {
         server.firebaseApp = initializeApp({
             projectId: process.env.GCLOUD_PROJECT,
@@ -28,7 +20,7 @@ const createServer = (config: ServerConfig): Server => {
 
 export const firebaseApplication = (
     getConfig: ServerConfig | Promise<ServerConfig>,
-    runtimeOptions: RuntimeOptions = defaultRuntimeOptions,
+    runtimeOptions?: RuntimeOptions,
 ): HttpsFunction => {
     const onRequest = runWith(runtimeOptions).https.onRequest;
     if (isServerConfig(getConfig)) {
