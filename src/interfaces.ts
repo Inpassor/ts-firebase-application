@@ -9,14 +9,10 @@ import {
 
 export type ServerConfig = NodeServerConfig;
 
-export class Server extends NodeServer {
-    public firebaseApp: app.App;
-    public firestore: firestore.Firestore;
-
-    constructor(public config: ServerConfig = {}) {
-        super(config);
-    }
-}
+export type Server = NodeServer & {
+    firebaseApp: app.App;
+    firestore: firestore.Firestore;
+};
 
 export type Request = NodeServerRequest & {
     app: Server;

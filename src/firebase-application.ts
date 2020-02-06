@@ -1,11 +1,11 @@
 import { apps, app, firestore, initializeApp } from 'firebase-admin';
 import { RuntimeOptions, HttpsFunction, runWith } from 'firebase-functions';
-import { isServerConfig } from '@inpassor/node-server';
+import { Server as NodeServer, isServerConfig } from '@inpassor/node-server';
 
 import { Server, ServerConfig } from './interfaces';
 
 const createServer = (config: ServerConfig): Server => {
-    const server = new Server(config);
+    const server = new NodeServer(config) as Server;
     if (!apps.length) {
         server.firebaseApp = initializeApp({
             projectId: process.env.GCLOUD_PROJECT,
