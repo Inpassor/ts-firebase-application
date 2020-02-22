@@ -6,7 +6,7 @@
 
 This library is a handy wrapper for [@inpassor/node-server](https://github.com/Inpassor/ts-node-server).
 
-It provides a single function **firebaseApplication**:
+It provides a single function **firebaseApplication** creating a Firebase Cloud function:
 ```
 firebaseApplication: (
    getConfig: ServerConfig | Promise<ServerConfig>,
@@ -42,7 +42,7 @@ const config: ServerConfig = {
     sameOrigin: true,
     routes: [
         {
-            path: 'demo/:arg?',
+            path: 'demo</arg|?>',
             component: DemoComponent,
         },
     ],
